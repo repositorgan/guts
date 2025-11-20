@@ -1,2 +1,1 @@
-example.txt
 Document here of original text to produce summary for.
