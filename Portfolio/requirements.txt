@@ -1,0 +1,9 @@
+pandas
+numpy
+scikit-learn
+flask
+python-dotenv
+matplotlib
+seaborn
+requests
+good attitude
