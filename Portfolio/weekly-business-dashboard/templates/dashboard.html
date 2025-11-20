@@ -1,0 +1,10 @@
+<html>
+  <body>
+    <h1>Weekly Business Dashboard</h1>
+    <ul>
+      {% for _, row in data.iterrows() %}
+        <li>{{ row.metric }}: {{ row.value }}</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
