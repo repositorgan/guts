@@ -1,3 +1,4 @@
-def load_text(path):
-with open(path, 'r', encoding='utf-8') as f:
-return f.read()
+# Read example text and produce full text as a long string. 
+def load_text(path: str) -> str:
+  with open(path, 'r', encoding='utf-8') as f:
+    return f.read()
