@@ -1,7 +1,9 @@
-Document here of original text to produce summary for.
+File of original text file to produce summary for.
 
+Source Uniform Resource Locator, (URL), Wikipedia:
 https://en.wikipedia.org/wiki/Wikipedia
 
+Full length text:
 This article is about the online encyclopedia. For Wikipedia's home page, see Main Page. For the English-language Wikipedia, see English Wikipedia. For other uses, see Wikipedia (disambiguation).
 
 Wikipedia[c] is a free online encyclopedia written and maintained by a community of volunteers, known as Wikipedians, through open collaboration and the wiki software MediaWiki. Founded by Jimmy Wales and Larry Sanger in 2001, Wikipedia has been hosted since 2003 by the Wikimedia Foundation, an American nonprofit organization funded mainly by donations from readers.[2] Wikipedia is the largest and most-read reference work in history.[3][4]
