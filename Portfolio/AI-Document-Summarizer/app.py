@@ -1,17 +1,107 @@
-# We want to produce a text file summary. 
+# What? Produce output that summarize input text or text file plus a save option. 
+# How? Allow portability to varying operating systems via the python3 interpreter. Powered with artificial intelligence, (AI).
+# Why? Clean command line interface, (CLI), experience of terminal input to output summary for streamlined efficiency in human interpretation to drive interaction.
+# Who? User on interaction or those with a document of text to summarize.
+# Where? CLI and text file. 
+#!/usr/bin/env python3
 
-# Import functions from module and reading input files.
+"""
+AI-Powered Text Summarizer CLI Tool
+Features:
+- CLI support (argparse)
+- Error handling (missing or empty file)
+- Output to file option
+- Verbose mode option
+- Clean, production-ready architecture
+"""
+
+# Import necessary modules.
+import argparse
+import sys
+import os
+import time
+
+# Import AI text summarization and load text file functions from called upon modules.
 from model import summarize_text
 from utils import load_text
 
-# Run code when file is executed directly only. Exclude when imported as a script or module.
+# Spinner animation for longer operations. Heighten user experience, (UX).
+def spinner():
+  # Cycle through characters.
+  while True:
+    for frame in "|/-\\":
+    yield frame
+
+# Define main CLI function as script runs. 
+def main():
+  # Initialize parser with description.
+  parser = argparse.ArgumentParser(
+    description="AI-powered text summarizer CLI tool"
+  )
+  # Input the text file we want to consolidate.
+  parser.add_argument(
+    "input_file",
+    type=str,
+    help="Path to the text file you want to summarize"
+  )
+  # Output text file naming.
+  parser.add_argument(
+    "-o", "--output",
+    type=str,
+    help="Optional output file to save the summary"
+  )
+  # Allow for recording each step of process.
+  parser.add_argument(
+    "-v", "--verbose",
+    action="store_true",
+    help="Enable verbose mode for detailed logs"
+  )
+
+  # Analyse the user argument.
+  args = parser.parse_args()
+
+    # Qualify input file.
+  if not os.path.exists(args.input_file):
+    print(f"Error: File not found: {args.input_file}")
+    sys.exit(1)
+
+    # Load and read text file.
+  if args.verbose:
+    print(f"[INFO] Loading file: {args.input_file}")
+
+  text = load_text(args.input_file)
+  # Prevent empty file summarization.
+  if not text.strip():
+    print("Error: File is empty. Cannot summarize an empty text file.")
+    sys.exit(1)
+
+  # Show summarization is rendering
+  if args.verbose:
+    print("Generating summary...")
+  
+  # Display spinner.
+  spin = spinner()
+  for _ in range(10):
+    sys.stdout.write(next(spin))
+    sys.stdout.flush()
+    time.sleep(0.05)
+    sys.stdout.write("\b")
+
+  # Executive AI summarization.
+  summary = summarize_text(text)
+  
+  # Print summary to console.
+  print("\n=== SUMMARY RESULT ===\n")
+  print(summary)
+
+    # Save output to file if requested.
+  if args.output:
+    with open(args.output, "w", encoding="utf-8") as f:
+      f.write(summary)
+
+    print(f"\n Summary saved to: {args.output}")
+
+
+# Direct execution only.
 if __name__ == "__main__":
-
-# Load raw text file to produce string of text file content.
-text = load_text("sample_input.txt")
-
-# Pass result through function to reduce volume.
-summary = summarize_text(text)
-
-# Deliver consolidation to the console.
-print("SUMMARY:\n", summary)
+    main()
