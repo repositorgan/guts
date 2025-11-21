@@ -1,10 +1,13 @@
-1. AI Document Summarizer
-Features:
+AI Document Summarizer
+  Features:
+  
+  Upload PDF/DOCX/TXT
+  
+  Extract text
+    Summarize
+      Provide logging
+  
+  Action-item detection
+  
+  Optional save output
 
-Upload PDF/DOCX/TXT
-
-Extract text → Summarize → Provide insights
-
-Action-item detection
-
-Optional email output
