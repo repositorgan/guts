@@ -3,73 +3,64 @@
 import re
 from collections import Counter
 
-# Definition of what is a summary of text.
 def summarize_text(text):
-    # Andy Block. F| /V [) `/
-    # Split text with periods to form sentences. 
-    # Integrates keywords into sentences string.
-   
-    # Make sure text is split into sentences.
-    sentences = [s.strip() for s in re.split(r'(?<=[.!?]) +', text) if s.strip()]
+    """
+    Lightweight extractive summarizer:
+    - Extracts sentences
+    - Computes keyword frequency
+    - Selects best 1–2 sentences
+    - Produces a clean, grammatical summary
+    """
+
+    # --- 1. Split text into sentences ---
+    sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', text) if s.strip()]
+
     if not sentences:
-        return "Give me content with a period."
-    
-    # Calculate word frequencies.
+        return "No usable sentences found in the text."
+
+    # --- 2. Count word frequencies ---
     words = re.findall(r'\b\w+\b', text.lower())
     word_counts = Counter(words)
 
-    # Pass keywords, do not include in product.
     stopwords = {
-        "the","and","of","in","to","a","is","for","on","with","as",
-        "by","an","at","that","this","it","from","be","are"
+        "the", "and", "of", "in", "to", "a", "is", "for", "on", "with",
+        "as", "by", "an", "at", "that", "this", "it", "from", "be", "are"
     }
-    # Find the keywords.
-    keywords = [w for w, _ in word_counts.most_common(50) if w not in stopwords]
+
+    keywords = [w for w, _ in word_counts.most_common(20) if w not in stopwords]
 
     if not keywords:
         keywords = list(word_counts.keys())[:10]
-        
-    # Define the weight of a sentence.
+
+    # --- 3. Score each sentence ---
     def sentence_score(sentence):
         s_words = re.findall(r'\b\w+\b', sentence.lower())
-        return sum(word_counts.get(w,0) for w in s_words if w in keywords)
-    # Rank regarding keyword frequency.
-    ranked_sentences = sorted(sentences, key=sentence_score, reverse=True)
+        return sum(word_counts.get(w, 0) for w in s_words if w in keywords)
 
-    # Identify top two sentences regarding statistics. Consolidate.
-    top_sentences = ranked_sentences[:2]
-    summary_text = " ".join(top_sentences).strip()
+    ranked = sorted(sentences, key=sentence_score, reverse=True)
 
-    # Make sure sentences end with a period.
+    # --- 4. Take top 1–2 sentences ---
+    best_sentences = ranked[:2]
+    summary = " ".join(best_sentences)
 
-    if not summary_text.endswith((".", "!", "?")):
-        summary_text += "."
-    # Make sure code can process spacing with paragraph structure.
-    summary_text = re.sub(r'\s+', ' ', summary_text)
+    # --- 5. Fix spacing, ensure full sentences ---
+    summary = summary.replace("  ", " ").strip()
+    if not summary.endswith((".", "!", "?")):
+        summary += "."
 
-
-    # Produce summary for at most two sentences with full words.
-    ##summary_sentences = summary_text.split(".")
-    ##summary_sentences = [s.strip() for s in summary_sentences if s.strip()]
-    ##summary_text = ". ".join(summary_sentences[:2]) + "."
-    
-    # Account for paragraphs in spacing.
-    summary_text = summary_text.replace("  ", " ")
-   
-    # Integrate missing keyword concepts in readable English.
-    first_five_keywords = keywords[:5]
-    missing = [k for k in first_five_keywords if k not in summary_text.lower()]
+    # --- 6. Include missing core keywords in English form ---
+    top_keywords = keywords[:5]
+    missing = [k for k in top_keywords if k not in summary.lower()]
 
     if missing:
-        summary_text += " Key concepts include: " + ", ".join(missing) + "."
-        # Create natural-language list.
         if len(missing) == 1:
-            summary_text = f" Key concept emphasized: {missing[0]}."
+            summary += f" Key concept emphasized: {missing[0]}."
         else:
-            summary_text += (
-                " Key concepts emphasized: " +
-                ", ".join(missing[:-1]) +
-                f", and {missing[-1]}."
+            summary += (
+                " Key concepts emphasized: "
+                + ", ".join(missing[:-1])
+                + f", and {missing[-1]}."
             )
-            
-    return summary_text
+
+    return summary
+
