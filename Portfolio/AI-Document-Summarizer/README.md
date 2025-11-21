@@ -1,10 +1,8 @@
-pyton -m summarizer example.txt
+python -m summarizer example.txt
 
-AI Document Summarizer
+Hello! This is an AI Document Summarizer
   Features:
-  
   Upload .txt
-  
   Extract text
     Summarize
       Provide logging
