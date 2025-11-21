@@ -1,3 +1,5 @@
+pyton app.py sample.txt
+
 AI Document Summarizer
   Features:
   
