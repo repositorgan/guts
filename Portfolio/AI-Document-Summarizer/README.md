@@ -1,4 +1,4 @@
-pyton app.py work on example.txt
+pyton -m summarizer example.txt
 
 AI Document Summarizer
   Features:
