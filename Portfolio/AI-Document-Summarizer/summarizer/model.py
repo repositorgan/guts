@@ -25,6 +25,10 @@ def summarize_text(text):
     }
     # Find the keywords.
     keywords = [w for w, _ in words_counts.most_common(15) if w not in stopwords]
+
+    if not keywords:
+        keywords = list(word_counts.keys())[:10]
+        
     # Define the weight of a sentence.
     def sentence_score(sentence):
         s_words = re.findall(r'\b\w+\b', sentence.lower())
@@ -43,10 +47,20 @@ def summarize_text(text):
     if not summary_text.endswith((".", "!", "?")):
         summary_text += "."
 
-    # 6) Integrate keywords into summary.
-    keywords_in_summary = [k for k in keywords if k in summary_text.lower()]
-    missing_keywords = [k for k in keywords[:5] if k not in keywords_in_summary]
-    if missing_keywords:
-        summary_text += " Key concepts include: " + ", ".join(missing_keywords) + "."
+    # 6) Integrate missing keyword concepts in readable English.
+    first_five_keywords = keywords[:5]
+    missing = [k for k in first_five_keywords if k not in summary_text.lower()]
+
+    if missing:
+        # Create natural-language list.
+        if len(missing) == 1:
+            concept_line = f" Key concept emphasized: {missing[0]}."
+        else:
+            concept_line = (
+                " Key concepts emphasized: " +
+                ", ".join(missing[:-1]) +
+                f", and {missing[-1]}."
+            )
+        summary_text += concept_line
 
     return summary_text
