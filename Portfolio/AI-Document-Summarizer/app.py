@@ -16,25 +16,25 @@ Features:
 """
 
 # Import necessary modules.
-import argparse
-import sys
-import os
-import time
+import argparse # Input analysis (parsing) processed with grammar.
+import sys # System exit.
+import os # File path.
+import time # Timestamping.
 
-# Import AI text summarization and load text file functions from called upon modules.
+# Import (AI text summarization and load text file) functions from called upon modules.
 from model import summarize_text
 from utils import load_text
 
 # Spinner animation for longer operations. Heighten user experience, (UX).
 def spinner():
-  # Cycle through characters.
+  # Function to cycle through characters.
   while True:
     for frame in "|/-\\":
-    yield frame
+      yield frame
 
 # Define main CLI function as script runs. 
 def main():
-  # Initialize parser with description.
+  # Initialize parser (analysis) with description.
   parser = argparse.ArgumentParser(
     description="AI-powered text summarizer CLI tool"
   )
@@ -50,7 +50,7 @@ def main():
     type=str,
     help="Optional output file to save the summary"
   )
-  # Allow for recording each step of process.
+  # Allow for plenty of, (verbose), documentation of each step of process (ideal for teaching and auditing).
   parser.add_argument(
     "-v", "--verbose",
     action="store_true",
@@ -60,16 +60,16 @@ def main():
   # Analyse the user argument.
   args = parser.parse_args()
 
-    # Qualify input file.
+  # Qualify input file.
   if not os.path.exists(args.input_file):
     print(f"Error: File not found: {args.input_file}")
     sys.exit(1)
 
-    # Load and read text file.
+  # Load and read text file.
   if args.verbose:
     print(f"[INFO] Loading file: {args.input_file}")
-
   text = load_text(args.input_file)
+  
   # Prevent empty file summarization.
   if not text.strip():
     print("Error: File is empty. Cannot summarize an empty text file.")
