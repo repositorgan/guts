@@ -22,8 +22,8 @@ import os # File path.
 import time # Timestamping.
 
 # Import (AI text summarization and load text file) functions from called upon modules.
-from model import summarize_text
-from utils import load_text
+from .model import summarize_text
+from .utils import load_text
 
 # Spinner animation for longer operations. Heighten user experience, (UX).
 def spinner():
