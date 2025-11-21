@@ -1,5 +1,5 @@
-# Summary function. Acts as machine learning, (ML), large language model, (LLM).
-# While reading text allow for a counter to determine frequencies of words and reproduce a condensed output for result.
+# Summary function. Acts as large language model, (LLM) statistical sentence produce.
+# While reading text allow for a counter to determine frequencies of words and reproduce a condensed output of two sentences for result.
 import re
 from collections import Counter
 
@@ -9,12 +9,12 @@ def summarize_text(text):
     # Split text with periods to form sentences. 
     # Integrates keywords into sentences string.
    
-    # 1) Make sure text is split into sentences.
+    # Make sure text is split into sentences.
     sentences = [s.strip() for s in re.split(r'(?<=[.!?]) +', text) if s.strip()]
     if not sentences:
         return "Give me content with a period."
     
-    # 2) Calculate word frequencies.
+    # Calculate word frequencies.
     words = re.findall(r'\b\w+\b', text.lower())
     word_counts = Counter(words)
 
@@ -24,7 +24,7 @@ def summarize_text(text):
         "by","an","at","that","this","it","from","be","are"
     }
     # Find the keywords.
-    keywords = [w for w, _ in word_counts.most_common(15) if w not in stopwords]
+    keywords = [w for w, _ in word_counts.most_common(50) if w not in stopwords]
 
     if not keywords:
         keywords = list(word_counts.keys())[:10]
@@ -36,31 +36,40 @@ def summarize_text(text):
     # Rank regarding keyword frequency.
     ranked_sentences = sorted(sentences, key=sentence_score, reverse=True)
 
-    # 4) Identify top two sentences. Consolidate.
-    summary_sentences = ranked_sentences[:2]
-    summary_text = " ".join(summary_sentences)
+    # Identify top two sentences regarding statistics. Consolidate.
+    top_sentences = ranked_sentences[:2]
+    summary_text = " ".join(top_sentences).strip()
 
-    # 5) Cap result output to 20 characters, or near 1% of full text.
-    total_chars = len(text)
-    max_chars = max(20, int(total_chars * 0.01))
-    summary_text = summary_text[:max_chars].rstrip()
+    # Make sure sentences end with a period.
+
     if not summary_text.endswith((".", "!", "?")):
         summary_text += "."
+    # Make sure code can process spacing with paragraph structure.
+    summary_text = re.sub(r'\s+', ' ', summary_text)
 
-    # 6) Integrate missing keyword concepts in readable English.
+
+    # Produce summary for at most two sentences with full words.
+    ##summary_sentences = summary_text.split(".")
+    ##summary_sentences = [s.strip() for s in summary_sentences if s.strip()]
+    ##summary_text = ". ".join(summary_sentences[:2]) + "."
+    
+    # Account for paragraphs in spacing.
+    summary_text = summary_text.replace("  ", " ")
+   
+    # Integrate missing keyword concepts in readable English.
     first_five_keywords = keywords[:5]
     missing = [k for k in first_five_keywords if k not in summary_text.lower()]
 
     if missing:
+        summary_text += " Key concepts include: " + ", ".join(missing) + "."
         # Create natural-language list.
         if len(missing) == 1:
-            concept_line = f" Key concept emphasized: {missing[0]}."
+            summary_text = f" Key concept emphasized: {missing[0]}."
         else:
-            concept_line = (
+            summary_text += (
                 " Key concepts emphasized: " +
                 ", ".join(missing[:-1]) +
                 f", and {missing[-1]}."
             )
-        summary_text += concept_line
-
+            
     return summary_text
