@@ -24,7 +24,7 @@ def summarize_text(text):
         "by","an","at","that","this","it","from","be","are"
     }
     # Find the keywords.
-    keywords = [w for w, _ in words_counts.most_common(15) if w not in stopwords]
+    keywords = [w for w, _ in word_counts.most_common(15) if w not in stopwords]
 
     if not keywords:
         keywords = list(word_counts.keys())[:10]
