@@ -1,9 +1,9 @@
-pyton app.py sample.txt
+pyton app.py work on example.txt
 
 AI Document Summarizer
   Features:
   
-  Upload PDF/DOCX/TXT
+  Upload .txt
   
   Extract text
     Summarize
