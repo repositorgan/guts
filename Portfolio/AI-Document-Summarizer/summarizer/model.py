@@ -33,9 +33,16 @@ def summarize_text(text):
         keywords = list(word_counts.keys())[:10]
 
     # --- 3. Score each sentence ---
-    def sentence_score(sentence):
+    # def sentence_score(sentence):
+    #    s_words = re.findall(r'\b\w+\b', sentence.lower())
+    #    return sum(word_counts.get(w, 0) for w in s_words if w in keywords)
+
+     def score(sentence):
         s_words = re.findall(r'\b\w+\b', sentence.lower())
-        return sum(word_counts.get(w, 0) for w in s_words if w in keywords)
+        if not s_words:
+            return 0
+        raw_score = sum(counts.get(w, 0) for w in s_words if w in keywords)
+        return raw_score / len(s_words)  # NORMALIZED FIX
 
     ranked = sorted(sentences, key=sentence_score, reverse=True)
 
