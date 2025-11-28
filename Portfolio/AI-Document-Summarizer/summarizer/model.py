@@ -1,63 +1,55 @@
-# Summary function. Acts as large language model, (LLM) statistical sentence produce.
-# While reading text allow for a counter to determine frequencies of words and reproduce a condensed output of two sentences for result.
+"""
+Extractive summarizer for producing 1–2 sentence executive summaries.
+"""
+
 import re
 from collections import Counter
 
-def summarize_text(text):
-    """
-    Lightweight extractive summarizer:
-    - Extracts sentences
-    - Computes keyword frequency
-    - Selects best 1–2 sentences
-    - Produces a clean, grammatical summary
-    """
-
-    # --- 1. Split text into sentences ---
+def summarize_text(text: str) -> str:
+    # 1. Break into sentences.
     sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', text) if s.strip()]
-
     if not sentences:
-        return "No usable sentences found in the text."
+        return "No valid sentences found."
 
-    # --- 2. Count word frequencies ---
+    # 2. Count word frequencies for scoring.
     words = re.findall(r'\b\w+\b', text.lower())
-    word_counts = Counter(words)
+    counts = Counter(words)
 
+    # Common stopwords that should not count as keywords.
     stopwords = {
-        "the", "and", "of", "in", "to", "a", "is", "for", "on", "with",
-        "as", "by", "an", "at", "that", "this", "it", "from", "be", "are"
+        "the", "and", "of", "in", "to", "a", "is", "for", "on", "with", "as",
+        "by", "an", "at", "that", "this", "it", "from", "be", "are", "was",
+        "were", "but", "or", "has", "have", "so", "its"
     }
 
-    keywords = [w for w, _ in word_counts.most_common(20) if w not in stopwords]
-
+    # 3. Extract high-frequency keywords.
+    keywords = [w for w, _ in counts.most_common(40) if w not in stopwords][:15]
     if not keywords:
-        keywords = list(word_counts.keys())[:10]
+        keywords = list(counts.keys())[:10]
 
-    # --- 3. Score each sentence ---
-    # def sentence_score(sentence):
-    #    s_words = re.findall(r'\b\w+\b', sentence.lower())
-    #    return sum(word_counts.get(w, 0) for w in s_words if w in keywords)
-
+    # 4. Score sentences by keyword density, not length.
     def score(sentence):
         s_words = re.findall(r'\b\w+\b', sentence.lower())
         if not s_words:
             return 0
         raw_score = sum(counts.get(w, 0) for w in s_words if w in keywords)
-        return raw_score / len(s_words)  # NORMALIZED FIX
+        return raw_score / len(s_words)
 
-    ranked = sorted(sentences, key=sentence_score, reverse=True)
+    # 5. Rank sentences using the score function.
+    ranked = sorted(sentences, key=score, reverse=True)
 
-    # --- 4. Take top 1–2 sentences ---
-    best_sentences = ranked[:2]
-    summary = " ".join(best_sentences)
+    # 6. Pick the top 2 meaningful sentences.
+    best = ranked[:2]
+    summary = " ".join(best).strip()
 
-    # --- 5. Fix spacing, ensure full sentences ---
-    summary = summary.replace("  ", " ").strip()
+    # Clean spacing.
+    summary = re.sub(r'\s+', " ", summary)
     if not summary.endswith((".", "!", "?")):
         summary += "."
 
-    # --- 6. Include missing core keywords in English form ---
-    top_keywords = keywords[:5]
-    missing = [k for k in top_keywords if k not in summary.lower()]
+    # 7. Add missing key concepts (optional).
+    top5 = keywords[:5]
+    missing = [k for k in top5 if k not in summary.lower()]
 
     if missing:
         if len(missing) == 1:
@@ -70,4 +62,3 @@ def summarize_text(text):
             )
 
     return summary
-
