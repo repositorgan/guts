@@ -37,7 +37,7 @@ def summarize_text(text):
     #    s_words = re.findall(r'\b\w+\b', sentence.lower())
     #    return sum(word_counts.get(w, 0) for w in s_words if w in keywords)
 
-     def score(sentence):
+    def score(sentence):
         s_words = re.findall(r'\b\w+\b', sentence.lower())
         if not s_words:
             return 0
