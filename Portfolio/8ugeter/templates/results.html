@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analysis Results</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+    </style>
+</head>
+<body>
+
+<h2>CSV Analysis Results</h2>
+
+<p><strong>Rows:</strong> {{ summary.row_count }}</p>
+<p><strong>Columns:</strong> {{ summary.column_count }}</p>
+<p><strong>Column Names:</strong> {{ summary.columns }}</p>
+
+<h3>Preview</h3>
+{{ summary.preview_html | safe }}
+
+<br><br>
+<a href="/upload">Upload another file</a>
+
+</body>
+</html>
