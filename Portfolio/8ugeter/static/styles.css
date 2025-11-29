@@ -1,1 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+.container {
+    width: 60%;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px #ccc;
+}
+
+button {
+    padding: 10px 20px;
+    background: #4caf50;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.insight {
+    background: #eef9ff;
+    padding: 15px;
+    border-left: 6px solid #0099ff;
+    margin-top: 15px;
+}
 
