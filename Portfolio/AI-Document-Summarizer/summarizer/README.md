@@ -16,7 +16,7 @@ _python -m summarizer example.txt -o output.txt_
 **HOW IT WORKS**
 
  _______________________________
-|    Input text, (.txt), file   |
+|    INPUT TEXT, (.txt), FILE   |
 |-------------------------------|
 | Full length analysis or report|
 
