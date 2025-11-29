@@ -20,7 +20,7 @@ def summarize_text(text: str) -> str:
         "the", "and", "of", "in", "to", "a", "is", "for", "on", "with", "as",
         "by", "an", "at", "that", "this", "it", "from", "be", "are", "was",
         "were", "but", "or", "has", "have", "so", "its", "been", "over", "about", 
-        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "I",
     }
 
     # 3. Extract high-frequency keywords.
@@ -54,7 +54,7 @@ def summarize_text(text: str) -> str:
 
     if missing:
         if len(missing) == 1:
-            summary += f" Key concept emphasized: {missing[0]}."
+            summary += f" Most commonly used text: {missing[0]}."
         else:
             summary += (
                 " Key concepts emphasized: "
