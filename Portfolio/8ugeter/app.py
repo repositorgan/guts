@@ -44,16 +44,35 @@ def analyze_csv(csv_file):
 def index():
   return render_template("index.html")
 
-@app.route("/upload", methods=["POST"])
+@app.route("/upload", methods=["GET", "POST"])
 def upload():
-  file = request.files["csv_file"]
-  if not file:
-    return "No file selected."
+    if request.method == "GET":
+        # Show the upload page
+        return render_template("upload.html")
 
-    csv_text = file.read().decode("utf-8")
-    results = analyze_csv(csv_text)
+    # POST = User submitted file
+    file = request.files.get("csvfile")
 
-    return render_template("dashboard.html", data=results)
+    if file is None or file.filename == "":
+        return render_template(
+            "upload.html",
+            error="No file selected. Please choose a CSV file."
+        )
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    try:
+        df = pd.read_csv(file)
+
+        # Basic summary analysis
+        summary = df.describe(include="all").to_html(classes="table table-bordered")
+
+        return render_template(
+            "results.html",
+            tables=[summary],
+            titles=["Uploaded CSV Summary"]
+        )
+
+    except Exception as e:
+        return render_template(
+            "upload.html",
+            error=f"Error reading CSV: {str(e)}"
+        )
