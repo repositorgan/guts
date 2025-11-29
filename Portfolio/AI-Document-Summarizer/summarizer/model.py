@@ -19,7 +19,7 @@ def summarize_text(text: str) -> str:
     stopwords = {
         "the", "and", "of", "in", "to", "a", "is", "for", "on", "with", "as",
         "by", "an", "at", "that", "this", "it", "from", "be", "are", "was",
-        "were", "but", "or", "has", "have", "so", "its"
+        "were", "but", "or", "has", "have", "so", "its", "been", "over",
     }
 
     # 3. Extract high-frequency keywords.
