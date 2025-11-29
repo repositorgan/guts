@@ -51,7 +51,7 @@ def upload():
         return render_template("upload.html")
 
     # POST = User submitted file
-    file = request.files.get("csvfile")
+    file = request.files.get("csv_file")
 
     if file is None or file.filename == "":
         return render_template(
