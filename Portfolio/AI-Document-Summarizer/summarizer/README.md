@@ -19,7 +19,7 @@ _python -m summarizer example.txt -o output.txt_
 |    Input text, (.txt), file   |
 |-------------------------------|
 | Full length analysis or report|
-|_______________________________|
+
                 |
                 V
                 |
