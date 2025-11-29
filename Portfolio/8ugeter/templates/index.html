@@ -1,1 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Budgeter</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Budgeter</h1>
+        <p>Upload your finance CSV file to get insights.</p>
 
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="csv_file" accept=".csv" required>
+            <button type="submit">Analyze</button>
+        </form>
+    </div>
+</body>
+</html>
