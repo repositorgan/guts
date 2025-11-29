@@ -50,6 +50,6 @@ _python -m summarizer example.txt -o output.txt_
 
 **INSTALLATION**
 Clone the repository:
-_git clone https://github.com/tech-debt/AI-Document-Summarizer.git_
+[git clone](https://github.com/tech-debt/AI-Document-Summarizer.git)
 
 
