@@ -1,4 +1,5 @@
 **AI DOCUMENT SUMMARIZER**
+
 _This is a simple and fast tool that reads long text, (.txt), files and returns to you a short 1–2 sentence summary. Showcases Python skills in constructing useful tools._
 
 _The tool provides keyword scoring to identify the most important ideas in the document and returns 1-2 sentences with the most important content to takeaway from each file._
@@ -14,7 +15,6 @@ _python -m summarizer example.txt -v_
 _python -m summarizer example.txt -o output.txt_
 
 **HOW IT WORKS**
-
  _______________________________
 |    INPUT TEXT, (.txt), FILE   |
 |-------------------------------|
