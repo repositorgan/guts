@@ -31,10 +31,10 @@ _python -m summarizer example.txt -o output.txt_
 |--------------------------------|
 |   1. Split text into sentences |
 |   2. Count keyword frequencies |
-|   3. Skips common words         |
+|   3. Skips common words        |
 |   4. Score each sentence       |
 |   5. Pick top 1-2 sentences    |
-|________________________________|
+
                 |
                 V
                 |
@@ -47,7 +47,6 @@ _python -m summarizer example.txt -o output.txt_
 |     Top scoring 1-2 sentences    |
 |        Keywords identified       |
 |       Option to save output      |
-|__________________________________|
 
 **INSTALLATION**
 Clone the repository:
