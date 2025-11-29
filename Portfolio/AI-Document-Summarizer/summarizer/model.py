@@ -19,11 +19,12 @@ def summarize_text(text: str) -> str:
     stopwords = {
         "the", "and", "of", "in", "to", "a", "is", "for", "on", "with", "as",
         "by", "an", "at", "that", "this", "it", "from", "be", "are", "was",
-        "were", "but", "or", "has", "have", "so", "its", "been", "over",
+        "were", "but", "or", "has", "have", "so", "its", "been", "over", "about", 
+        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
     }
 
     # 3. Extract high-frequency keywords.
-    keywords = [w for w, _ in counts.most_common(40) if w not in stopwords][:15]
+    keywords = [w for w, _ in counts.most_common(20) if w not in stopwords][:15]
     if not keywords:
         keywords = list(counts.keys())[:10]
 
