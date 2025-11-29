@@ -1,1 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Budget Summary</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Your Budget Summary</h1>
 
+        <h3>Total Income: ${{ data.income }}</h3>
+        <h3>Total Expenses: ${{ data.expenses }}</h3>
+        <h3>Top Spending Category: {{ data.top_category }}</h3>
+        
+        <p class="insight">{{ data.insight }}</p>
+
+        <h2>Category Breakdown</h2>
+        <ul>
+            {% for cat, amount in data.categories.items() %}
+                <li>{{ cat }} — ${{ amount }}</li>
+            {% endfor %}
+        </ul>
+
+        <a href="/">Upload Another File</a>
+    </div>
+</body>
+</html>
