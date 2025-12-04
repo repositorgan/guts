@@ -29,5 +29,11 @@ def upload():
     return render_template("results.html", summary=summary)
 
 if __name__ == "__main__":
-    # debug=True auto-refreshes changes
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    from werkzeug.serving import run_simple
+    run_simple(
+        hostname="127.0.0.1",
+        port=5000,
+        application=app,
+        use_reloader=False,
+        use_debugger=True
+    )
