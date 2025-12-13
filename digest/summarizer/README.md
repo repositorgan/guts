@@ -11,3 +11,5 @@
 https://openai.com/careers/residency-2026-san-francisco/
 
 https://twitter.com/IBMtwc
+
+“This tool assists legal review but does not replace licensed legal counsel.”
