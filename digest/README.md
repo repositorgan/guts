@@ -1,6 +1,6 @@
-Fruit
+# Fruit
 
-Packaged products | Profit Share
+**Packaged Products | Profit Share**
 
 > The purpose of this README is to give an overview of content
 
