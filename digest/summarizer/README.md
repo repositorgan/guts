@@ -1,5 +1,13 @@
-The purpose of this summarizer is to ship deployable software to 
-> lawyers and legal teams
-> policy and compliance professionals
-> education environments for grading and verifying subject comprehension
-> Media outlets and news sources
+# Impact
+
+**Software | Customers**
+
+> The purpose of this README is to introduce summarizer update for market
+
+> Goal is to expand current methods in suite of service offerings
+
+> Packaged & Easy, OpenAI Residency & Engineering, and Expansion & Feedback
+
+https://openai.com/careers/residency-2026-san-francisco/
+
+https://twitter.com/IBMtwc
