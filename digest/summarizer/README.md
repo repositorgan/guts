@@ -14,4 +14,4 @@ https://twitter.com/IBMtwc
 
 Disclaimer:
 
-"_This tool assists legal review but does not replace licensed legal counsel._" 
+"_Summarizer assists legal review but does not replace licensed legal counsel._" 
