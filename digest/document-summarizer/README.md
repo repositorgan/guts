@@ -7,13 +7,13 @@
 > Analysts needing fast document overviews
 > Media outlets seeking consolidation of topics
 
-## Features
+**Features**
 > Sentence-scoring summarization
 > Clean HTTP API
 > Auto-generated documentation
 > Easy to deploy and extend
 
-## Run Locally
+**Run Locally**
 
 ```bash
 pip install -r requirements.txt
