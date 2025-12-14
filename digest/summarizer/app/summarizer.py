@@ -1,114 +1,66 @@
-# What? Produce output that summarize input text or text file plus a save option. 
-# How? Allow portability to varying operating systems via the python3 interpreter. Powered with artificial intelligence, (AI).
-# Why? Clean command line interface, (CLI), experience of terminal input to output summary for streamlined efficiency in human interpretation to drive interaction.
-# Who? User on interaction or those with a document of text to summarize.
-# Where? CLI and text file. 
-#!/usr/bin/env python3
-
 """
-AI-Powered Text Summarizer CLI Tool
-Features:
-- CLI support (argparse)
-- Error handling (missing or empty file)
-- Output to file option
-- Verbose mode option
-- Clean, production-ready architecture
+Extractive summarizer for producing 1–2 sentence executive summaries.
+Core summarizer performance of app.
 """
 
-# Import necessary modules.
-import argparse # Input analysis (parsing) processed with grammar.
-import sys # System exit.
-import os # File path.
-import time # Timestamping.
+import re
+from collections import Counter
 
-# Import (AI text summarization and load text file) functions from called upon modules.
-from .model import summarize_text
-from .utils import load_text
+def summarize_text(text: str) -> str:
+    # 1. Break into sentences.
+    sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', text) if s.strip()]
+    if not sentences:
+        return "No valid sentences found."
 
-# Spinner animation for longer operations. Heighten user experience, (UX).
-def spinner():
-  # Function to cycle through characters.
-  while True:
-    for frame in "|/-\\":
-      yield frame
+    # 2. Count word frequencies for scoring.
+    words = re.findall(r'\b\w+\b', text.lower())
+    counts = Counter(words)
 
-# Define main CLI function as script runs. 
-def main():
-  # Initialize parser (analysis) with description.
-  parser = argparse.ArgumentParser(
-    description="AI-powered text summarizer CLI tool"
-  )
-  # Input the text file we want to consolidate.
-  parser.add_argument(
-    "input_file",
-    type=str,
-    help="Path to the text file you want to summarize"
-  )
-  # Output text file naming.
-  parser.add_argument(
-    "-o", "--output",
-    type=str,
-    help="Optional output file to save the summary"
-  )
-  # Allow for plenty of, (verbose), documentation of each step of process (ideal for teaching and auditing).
-  parser.add_argument(
-    "-v", "--verbose",
-    action="store_true",
-    help="Enable verbose mode for detailed logs"
-  )
-
-  # Analyse the user argument.
-  args = parser.parse_args()
-
-  # Qualify input file.
-  if not os.path.exists(args.input_file):
-    print(f"Error: File not found: {args.input_file}")
-    sys.exit(1)
-
-  # Load and read text file.
-  if args.verbose:
-    print(f"[INFO] Loading file: {args.input_file}")
-  text = load_text(args.input_file)
-  
-  # Prevent empty file summarization.
-  if not text.strip():
-    print("Error: File is empty. Cannot summarize an empty text file.")
-    sys.exit(1)
-
-  # Show summarization is rendering
-  if args.verbose:
-    print("Generating summary...")
-  
-  # Display spinner.
-  spin = spinner()
-  for _ in range(10):
-    sys.stdout.write(next(spin))
-    sys.stdout.flush()
-    time.sleep(0.05)
-    sys.stdout.write("\b")
-
-  # Executive AI summarization.
-  def summarize_text(text: str, mode="general", length="short") -> dict:
-
-    summary = summarize_text(text)
-    return {
-        "summary": summary,
-        "mode": mode,
-        "length": length
+    # Common stopwords that should not count as keywords.
+    stopwords = {
+        "the", "and", "of", "in", "to", "a", "is", "for", "on", "with", "as",
+        "by", "an", "at", "that", "this", "it", "from", "be", "are", "was",
+        "were", "but", "or", "has", "have", "so", "its", "been", "over", "about", 
+        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "I",
     }
-  
-  # Print summary to console.
-  print("\n=== SUMMARY RESULT ===\n")
-  print(summary)
 
-    # Save output to file if requested.
-  if args.output:
-    with open(args.output, "w", encoding="utf-8") as f:
-      f.write(summary)
+    # 3. Extract high-frequency keywords.
+    keywords = [w for w, _ in counts.most_common(20) if w not in stopwords][:15]
+    if not keywords:
+        keywords = list(counts.keys())[:10]
 
-    print(f"\n Summary saved to: {args.output}")
+    # 4. Score sentences by keyword density, not length.
+    def score(sentence):
+        s_words = re.findall(r'\b\w+\b', sentence.lower())
+        if not s_words:
+            return 0
+        raw_score = sum(counts.get(w, 0) for w in s_words if w in keywords)
+        return raw_score / len(s_words)
 
+    # 5. Rank sentences using the score function.
+    ranked = sorted(sentences, key=score, reverse=True)
 
-# Direct execution only.
-if __name__ == "__main__":
-    main()
+    # 6. Pick the top 2 meaningful sentences.
+    best = ranked[:2]
+    summary = " ".join(best).strip()
+
+    # Clean spacing.
+    summary = re.sub(r'\s+', " ", summary)
+    if not summary.endswith((".", "!", "?")):
+        summary += "."
+
+    # 7. Add missing key concepts (optional).
+    top5 = keywords[:5]
+    missing = [k for k in top5 if k not in summary.lower()]
+
+    if missing:
+        if len(missing) == 1:
+            summary += f" Most commonly used text: {missing[0]}."
+        else:
+            summary += (
+                " Key concepts emphasized: "
+                + ", ".join(missing[:-1])
+                + f", and {missing[-1]}."
+            )
+
+    return summary
