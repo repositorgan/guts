@@ -1,5 +1,5 @@
 # App
 
-**Summarizer | core app logic.**
+**summarizer.py | core app logic.**
 
 > Python
