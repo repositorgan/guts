@@ -1,10 +1,10 @@
-# Food for Thought
+# Platter
 
-**OpenAI Residency Resume | 13 December 2025**
+**OpenAI Residency Resume | 15 December 2025**
 
-> The purpose of this README is to establish emerging talent potential
+> The purpose of this README is to walk through work about
 
-> Goal is to build more human relaionships in a profit sharing community 
+> Goal is to transfer technical Portfolio to client facing shareholder digest
 
 > Measureable & Creative, Research & Engineering, and Service & Sales
 
